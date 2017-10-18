@@ -1,0 +1,30 @@
+{
+  "name": "e-logisths",
+  "version": "1.0.0",
+  "description": "nodejs server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emdDevelop/e-logisths.git"
+  },
+  "author": "Dionisis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emdDevelop/e-logisths/issues"
+  },
+  "homepage": "https://github.com/emdDevelop/e-logisths#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.2",
+    "body-parser": "^1.17.2",
+    "client-sessions": "^0.8.0",
+    "ejs": "^2.5.6",
+    "email-templates": "^2.6.0",
+    "express": "^4.15.3",
+    "express-validator": "^4.2.1",
+    "mongoose": "^4.10.5",
+    "nodemailer": "^4.0.1"
+  }
+}

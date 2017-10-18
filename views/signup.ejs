@@ -1,0 +1,36 @@
+<% include templates/header.ejs %>
+<body>
+
+<div class="container">
+    <% include templates/body.ejs %>
+    <form method="post" action="/signup">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" name="name">
+        </div>
+        <div class="form-group">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" name="username">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" name="pwd">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    <br>
+    <% if(errors != undefined){ %>
+    <ul class="list-group">
+        <% errors.forEach(function(error){ %>
+        <li class="list-group-item list-group-item-danger"><%= error %></li>
+        <% }) %>
+    </ul>
+    <%}%>
+</div>
+
+
+
+<% include templates/footer.ejs %>
+</body>
+
+</html>

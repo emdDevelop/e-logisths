@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>e-logisths</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="all">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        /* Remove the navbar's default rounded borders and increase the bottom margin */
+        .navbar {
+            margin-bottom: 50px;
+            border-radius: 0;
+        }
+
+        /* Remove the jumbotron's default bottom margin */
+        .jumbotron {
+            margin-bottom: 0;
+        }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+
+        .table-hover tbody tr:hover td {
+            background: aqua;
+        }
+
+        h3 {
+            color: #b2aa0d;
+        }
+
+        /* Add a gray background color and some padding to the footer */
+        footer {
+            background-color: #101010;
+            padding: 25px;
+        }
+
+        @media print {
+            body {
+                margin-left: 10px;
+                -webkit-print-color-adjust: exact !important;
+            }
+            .table th {
+                background-color: lightgray !important;/* works for chrome */
+                box-shadow: inset 0 0 0 1000px gold !important;/* works for Mozilla */
+            }
+        }
+    </style>
+    <script>
+              function printDiv(divName) {
+                  var printContents = document.getElementById(divName).innerHTML;
+                  var originalContents = document.body.innerHTML;
+                  document.body.innerHTML =printContents;
+                  window.print();
+                  document.body.innerHTML = originalContents;
+              }
+    </script>
+</head>

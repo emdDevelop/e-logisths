@@ -1,0 +1,40 @@
+<% include templates/header.ejs %>
+<body>
+
+<div class="container" style="background-color: #eee">
+    <% include templates/body.ejs %>
+    <div class="row content">
+        <% include templates/navbar.ejs %>
+        <div class="col-sm-9">
+            <h3>Πελάτες</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Επωνυμία</th>
+                    <th>Τηλεφωνο</th>
+                    <th>Κινητό</th>
+                    <th>Email</th>
+                    <th>Taxis Username</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% customers.forEach(function(customers){%>
+                <tr>
+                    <td><%=customers.name%></td>
+                    <td><%=customers.phone%></td>
+                    <td><%=customers.mobile%></td>
+                    <td><%=customers.email%></td>
+                    <td><%=customers.taxisUser%></td>
+                </tr>
+                <%})%>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<% include templates/footer.ejs %>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<% include templates/header.ejs %>
+<body>
+
+<div class="container" style="background-color: #eee">
+    <% include templates/body.ejs %>
+    <div class="row content">
+        <% include templates/navbar.ejs %>
+        <div class="col-sm-9">
+            <h3>Καταχώρηση Πελατών</h3>
+            <form method="post" action="/users/customersAdd">
+                <div class="form-group">
+                    <label for="name">Επωνυμία:</label>
+                    <input type="text" class="form-control" name="name" value="">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Τηλέφωνο:</label>
+                    <input type="text" class="form-control" name="phone" value="">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Κινητό:</label>
+                    <input type="text" class="form-control" name="mobile" value="">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address:</label>
+                    <input type="email" class="form-control" name="email" value="">
+                </div>
+                <div class="form-group">
+                    <label for="taxisUser">Taxis Username:</label>
+                    <input type="text" class="form-control" name="taxisUser" value="">
+                </div>
+                <div class="form-group">
+                    <label for="taxisPass">Taxis Password:</label>
+                    <input type="password" class="form-control" name="taxisPass" value="">
+                </div>
+                <div class="form-group">
+                    <label for="amka">AMKA:</label>
+                    <input type="text" class="form-control" name="amka" value="">
+                </div>
+                <button type="submit" class="btn btn-success">Καταχώρηση Πελάτη</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<% include templates/footer.ejs %>
+</body>
+
+</html>

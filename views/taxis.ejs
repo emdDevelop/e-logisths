@@ -1,0 +1,30 @@
+<% include templates/header.ejs %>
+<body>
+
+<div class="container" style="background-color: #eee">
+    <% include templates/body.ejs %>
+    <div class="row content">
+        <% include templates/navbar.ejs %>
+        <div class="col-sm-9">
+            <h3>Είσοδος Taxis Net</h3>
+            <form id="formId" method="post" action="/users/taxis">
+                <div class="form-group">
+                    <label for="name">Επιλογή Πελάτη:</label>
+                    <select id='customersId' class="form-control" name="selectedCustomer">
+                        <option value="">Επιλογή πελάτη</option>
+                        <% customers.forEach(function(customers){%>
+                            <option value="<%=customers._id%>"><%=customers.name%></option>
+                        <%})%>
+                    </select>
+                </div>
+                <button id="btnSubmit" type="submit" class="btn btn-success">Είσοδος στος Taxis</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<% include templates/footer.ejs %>
+</body>
+
+</html>
