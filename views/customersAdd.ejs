@@ -6,42 +6,50 @@
     <div class="row content">
         <% include templates/navbar.ejs %>
         <div class="col-sm-9">
-            <h3>Καταχώρηση Πελατών</h3>
-            <form method="post" action="/users/customersAdd">
+            <h3 id="h3Label">Καταχώρηση Πελατών</h3>
+            <form id="formId" method="post" action="/users/customersAdd">
                 <div class="form-group">
                     <label for="name">Επωνυμία:</label>
-                    <input type="text" class="form-control" name="name" value="">
+                    <input type="text" class="form-control" name="name" value="<%=typeof customers!=='undefined'?customers.name:null%>">
                 </div>
                 <div class="form-group">
                     <label for="phone">Τηλέφωνο:</label>
-                    <input type="text" class="form-control" name="phone" value="">
+                    <input type="text" class="form-control" name="phone" value="<%=typeof customers!=='undefined'?customers.phone:null%>">
                 </div>
                 <div class="form-group">
                     <label for="mobile">Κινητό:</label>
-                    <input type="text" class="form-control" name="mobile" value="">
+                    <input type="text" class="form-control" name="mobile" value="<%=typeof customers!=='undefined'?customers.mobile:null%>">
                 </div>
                 <div class="form-group">
                     <label for="email">Email address:</label>
-                    <input type="email" class="form-control" name="email" value="">
+                    <input type="email" class="form-control" name="email" value="<%=typeof customers!=='undefined'?customers.email:null%>">
                 </div>
                 <div class="form-group">
                     <label for="taxisUser">Taxis Username:</label>
-                    <input type="text" class="form-control" name="taxisUser" value="">
+                    <input type="text" class="form-control" name="taxisUser" value="<%=typeof customers!=='undefined'?customers.taxisUser:null%>">
                 </div>
                 <div class="form-group">
                     <label for="taxisPass">Taxis Password:</label>
-                    <input type="password" class="form-control" name="taxisPass" value="">
+                    <input type="text" class="form-control" name="taxisPass" value="<%=typeof customers!=='undefined'?customers.taxisPass:null%>">
                 </div>
                 <div class="form-group">
                     <label for="amka">AMKA:</label>
-                    <input type="text" class="form-control" name="amka" value="">
+                    <input type="text" class="form-control" name="amka" value="<%=typeof customers!=='undefined'?customers.amka:null%>">
                 </div>
-                <button type="submit" class="btn btn-success">Καταχώρηση Πελάτη</button>
+                <button id="btnSubmit" type="submit" class="btn btn-success">Καταχώρηση Πελάτη</button>
             </form>
 
         </div>
     </div>
 </div>
+
+<script>
+    <%if(typeof customers!=='undefined'){%>
+        document.getElementById('h3Label').innerHTML='Καρτέλα Πελάτη';
+        document.getElementById('btnSubmit').innerHTML='Διόρθωση Στοιχείων';
+        document.getElementById('formId').action='/users/customers/<%=customers._id%>'
+    <%}%>
+</script>
 
 <% include templates/footer.ejs %>
 </body>

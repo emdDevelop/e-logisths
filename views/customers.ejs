@@ -11,20 +11,20 @@
                 <thead>
                 <tr>
                     <th>Επωνυμία</th>
-                    <th>Τηλεφωνο</th>
-                    <th>Κινητό</th>
                     <th>Email</th>
                     <th>Taxis Username</th>
+                    <th>Taxis Password</th>
+                    <th>ΑΜΚΑ</th>
                 </tr>
                 </thead>
                 <tbody>
                 <% customers.forEach(function(customers){%>
                 <tr>
-                    <td><%=customers.name%></td>
-                    <td><%=customers.phone%></td>
-                    <td><%=customers.mobile%></td>
+                    <td><a href='/users/customers/<%=customers._id %>'><%=customers.name%></a></td>
                     <td><%=customers.email%></td>
                     <td><%=customers.taxisUser%></td>
+                    <td><%=customers.taxisPass%></td>
+                    <td><%=customers.amka%></td>
                 </tr>
                 <%})%>
                 </tbody>

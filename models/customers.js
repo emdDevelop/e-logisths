@@ -8,7 +8,7 @@ var customersSchema= new Schema({
     email:      String,
     taxisUser:  String,
     taxisPass:  String,
-    amka:       Number,
+    amka:       String,
     user :      [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
