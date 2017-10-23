@@ -138,6 +138,10 @@ router.get('/taxis',function(req,res){
 //Taxis connect
 router.post('/taxis',function(req,res){
     Customers.findOne({user:req.user._id,_id:req.body.selectedCustomer},function(err,customer){
+        var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        ip=ip.match(/\d+\.\d+\.\d+\.\d+/);
+        var url='http://'+ip+':4444/wd/hub';
+        console.log(url);
         if (err) console.log(err);
         else{
             res.redirect('taxis');
@@ -157,6 +161,7 @@ router.post('/taxis',function(req,res){
             opts.setProfile(profile);
 
             var driver = new webdriver.Builder()
+                .usingServer(url)
                 .forBrowser('firefox')
                 .setFirefoxOptions(opts)
                 .build();
@@ -168,7 +173,7 @@ router.post('/taxis',function(req,res){
             driver.sleep(10000);
             driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
                 driver.switchTo().window(allhandles[allhandles.length - 1]);
-                driver.wait(until.titleIs('Sign In'), 20000);
+                driver.wait(until.titleIs('Σύνδεση'), 20000);
                 driver.findElement(By.name('ssousername')).sendKeys(customer.taxisUser);
                 driver.findElement(By.name('password')).sendKeys(customer.taxisPass);
                 driver.findElement(By.xpath("/*//*[@value='OK']")).click();
