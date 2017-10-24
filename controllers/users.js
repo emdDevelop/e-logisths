@@ -170,10 +170,10 @@ router.post('/taxis',function(req,res){
             driver.wait(until.titleIs('Γενική Γραμματεία Πληροφοριακών Συστημάτων'), 10000);
             driver.findElement(By.xpath("//a[@href='https://www1.gsis.gr/taxisnet/mytaxisnet']")).click();
             // select the newly opened window
-            driver.sleep(10000);
+            driver.sleep(6000);
             driver.getAllWindowHandles().then(function gotWindowHandles(allhandles) {
                 driver.switchTo().window(allhandles[allhandles.length - 1]);
-                driver.wait(until.titleIs('Σύνδεση'), 20000);
+                driver.wait(until.titleIs('Sign In'), 20000);
                 driver.findElement(By.name('ssousername')).sendKeys(customer.taxisUser);
                 driver.findElement(By.name('password')).sendKeys(customer.taxisPass);
                 driver.findElement(By.xpath("/*//*[@value='OK']")).click();
