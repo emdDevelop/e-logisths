@@ -49,7 +49,7 @@ router.post('/updateProfile',function(req,res){
 
 //Customers page
 router.get('/customers',function(req,res){
-    Customers.find({user:req.user._id},function(err,customers){
+    Customers.find({user:req.user._id}, null, {sort: {name: 1}},function(err,customers){
         if (err) console.log(err);
         res.render('customers',{
             name: req.user.name,
@@ -76,7 +76,7 @@ router.post('/customers/:customersId',function(req,res){
             customers.name=req.body.name;
             customers.phone=req.body.phone;
             customers.mobile=req.body.mobile;
-            customers.mail=req.body.email;
+            customers.email=req.body.email;
             customers.taxisUser=req.body.taxisUser;
             customers.taxisPass=req.body.taxisPass;
             customers.amka=req.body.amka;
@@ -126,7 +126,7 @@ router.post('/customersAdd',function(req,res){
 
 //Page to connect to taxisnet
 router.get('/taxis',function(req,res){
-    Customers.find({user:req.user._id},function(err,customers){
+    Customers.find({user:req.user._id}, null, {sort: {name: 1}},function(err,customers){
         if (err) console.log(err);
         res.render('taxis',{
             name: req.user.name,
