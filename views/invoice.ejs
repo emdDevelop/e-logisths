@@ -5,108 +5,116 @@
     <% include templates/body.ejs %>
     <div class="row content">
         <% include templates/navbar.ejs %>
-        <div class="col-sm-9">
-            <div class="row">
-                <div class="col-sm-8">
-                    <h3 class="text-center">ΕΥΣΤΑΘΟΠΟΥΛΟΥ ΚΑΙ ΣΙΑ Ο.Ε</h3>
+            <div class="col-sm-9">
+                <div id="printableArea">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h3 class="text-left">ΕΥΣΤΑΘΟΠΟΥΛΟΥ ΚΑΙ ΣΙΑ Ο.Ε</h3>
+                    </div>
+                    <div class="col-sm-4 pull-right">
+                        <address>
+                            <strong>ΕΥΣΤΑΘΟΠΟΥΛΟΥ ΚΑΙ ΣΙΑ Ο.Ε</strong><br>
+                            <strong>ΦΟΡΟΛΟΓΙΣΤΚΑ Ο.Ε</strong><br>
+                            <strong>Λ.ΚΗΦΙΣΙΑΣ 58 - ΑΘΗΝΑ - 11526</strong><br>
+                            <strong>Α.Φ.Μ: 800902974</strong><br>
+                            <strong>Δ.Ο.Υ: ΙΒ ΑΘΗΝΩΝ</strong><br>
+                            <strong>ΤΗΛ.: 2106967306-7</strong><br>
+                            <strong>Email: logistek@otenet.gr</strong><br>
+                        </address>
+                    </div>
                 </div>
-                <div class="col-sm-4 pull-right">
-                    <address>
-                        <strong>ΕΥΣΤΑΘΟΠΟΥΛΟΥ ΚΑΙ ΣΙΑ Ο.Ε</strong><br>
-                        <strong>ΦΟΡΟΛΟΓΙΣΤΚΑ Ο.Ε</strong><br>
-                        <strong>Λ.ΚΗΦΙΣΙΑΣ 58 - ΑΘΗΝΑ - 11526</strong><br>
-                        <strong>Α.Φ.Μ: 800902974</strong><br>
-                        <strong>Δ.Ο.Υ: ΙΒ ΑΘΗΝΩΝ</strong><br>
-                        <strong>ΤΗΛ.: 2106967306-7</strong><br>
-                        <strong>Email: logistek@otenet.gr</strong><br>
-                    </address>
+                    <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h4>Στοιχεία Πελάτη:</h4>
+
+                        <p>
+                            <strong><%=customer.name%></strong><br>
+                            <%=customer.occupation%><br>
+                            <%=customer.address%><br>
+                            Α.Φ.Μ: <%=customer.vatId%><br>
+                            Δ.Ο.Υ: <%=customer.taxOffice%>
+                        </p>
+                    </div>
+                    <div class="col-sm-4 pull right">
+                        <h4>Στοιχεία Παραστατικού:</h4>
+
+                        <p><strong>Τιμολόγιο Παροχής Υπηρεσιών</strong><br>
+                            Ημερομηνία Έκδοσης: <%=invoice.dateOfPublish%><br>
+                            Αρ.Παραστατικού: 1
+                        </p>
+                    </div>
                 </div>
-            </div>
+                <br>
 
-            <div class="row">
-                <div class="col-sm-8">
-                    <h4>Στοιχεία Πελάτη:</h4>
-                    <p>
-                        <strong>Αραβαντινος Ευαγγελος</strong><br>
-                        Επαγγελμα<br>
-                        Διεύθυνση<br>
-                        Α.Φ.Μ:<br>
-                        Δ.Ο.Υ:
-                    </p>
-                </div>
-                <div class="col-sm-4 pull right">
-                    <h4>Στοιχεία Παραστατικού:</h4>
-                    <p><strong>Τιμολόγιο Παροχής Υπηρεσιών</strong><br>
-                    Ημερομηνία Έκδοσης:<br>
-                    Αρ.Παραστατικού:
-                    </p>
-                </div>
-            </div>
-            <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><strong>Περιγραφή Υπηρεσίας</strong></h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <td class="text-center"><strong>Περιγραφή</strong></td>
+                                            <td class="text-right"><strong>Αξία</strong></td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title"><strong>Περιγραφή Υπηρεσίας</strong></h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <td class="text-center"><strong>Περιγραφή</strong></td>
-                                        <td class="text-right"><strong>Αξία</strong></td>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                        <tr>
+                                            <td>Λογιστικά - Φορολογικά</td>
+                                            <td class="text-right">600,00</td>
+                                        </tr>
 
-                                    <tr>
-                                        <td>Λογιστικά - Φορολογικά για διαφορα και αλλα οπως
-                                            επίσης
-                                        </td>
-                                        <td class="text-right">100</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="thick-line text-right"><strong>Σύνολο</strong></td>
-                                        <td class="thick-line text-right">100</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="no-line text-right"><strong>ΦΠΑ 24%:</strong></td>
-                                        <td class="no-line text-right">24</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="no-line text-right"><strong>Γενικό Σύνολο</strong></td>
-                                        <td class="no-line text-right">124</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                        <tr>
+                                            <td class="thick-line text-right"><strong>Σύνολο</strong></td>
+                                            <td class="thick-line text-right">600,00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="no-line text-right"><strong>ΦΠΑ 24%</strong></td>
+                                            <td class="no-line text-right">144,00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="no-line text-right"><strong>Γενικό Σύνολο</strong></td>
+                                            <td class="no-line text-right">744,00</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <strong>Πληρωμή με Εμβασμα σε τραπεζικό λογαριασμό:</strong>
-                    <p>
-                        <strong>ALPHA BANK</strong><br>
-                        IBAN: <br>
-                        Στοιχεία Κατόχου Λογαριασμού:<br>
-                    </p>
-                </div>
-                <div class="col-sm-6 pull right">
+                <div class="row">
                     <div class="col-sm-6">
-                        <h4>Ο Παραδούς</h4>
+                        <strong>Πληρωμή με Εμβασμα σε τραπεζικό λογαριασμό:</strong>
+
+                        <p>
+                            <strong>ALPHA BANK</strong><br>
+                            IBAN: GR1501402320232002002002035 <br>
+                            Στοιχεία Κατόχου Λογαριασμού:ΛΟΓΙΣΤΙΚΟ ΓΡΑΦΕΙΟ ΕΥΣΤΑΘΟΠΟΥΛΟΥ ΠΑΠΑΣΠΥΡΟΥ Ο.Ε<br>
+                        </p>
                     </div>
-                    <div>
-                        <h4 class="col-sm-6">Ο Παραλαβών</h4>
+                    <div class="col-sm-6 pull right">
+                        <div class="col-sm-6">
+                            <h4>Ο Παραδούς</h4>
+                        </div>
+                        <div>
+                            <h4 class="col-sm-6">Ο Παραλαβών</h4>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div><!--End of printable Area -->
+    <h3 align="right">
+        <a onclick="printDiv('printableArea')" href="#print">
+            <span class="glyphicon glyphicon-print"></span>
+        </a>
+    </h3>
 </div>
 
 <% include templates/footer.ejs %>

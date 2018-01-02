@@ -5,6 +5,7 @@ var firefox = require('selenium-webdriver/firefox');
 var path=require('path');
 var User=require('../models/user');
 var Customers=require('../models/customers');
+var Invoices=require('../models/invoice');
 
 By = webdriver.By,
     until = webdriver.until;
@@ -73,13 +74,18 @@ router.post('/customers/:customersId',function(req,res){
     Customers.findOne({_id: req.params.customersId},function(err,customers){
         if (err) console.log(err);
 
-            customers.name=req.body.name;
-            customers.phone=req.body.phone;
-            customers.mobile=req.body.mobile;
-            customers.email=req.body.email;
-            customers.taxisUser=req.body.taxisUser;
-            customers.taxisPass=req.body.taxisPass;
-            customers.amka=req.body.amka;
+        customers.name=req.body.name;
+        customers.occupation=req.body.occupation;
+        customers.address=req.body.address;
+        customers.vatId=req.body.vatId;
+        customers.taxOffice=req.body.taxOffice;
+        customers.phone=req.body.phone;
+        customers.mobile=req.body.mobile;
+        customers.email=req.body.email;
+        customers.taxisUser=req.body.taxisUser;
+        customers.taxisPass=req.body.taxisPass;
+        customers.amka=req.body.amka;
+        customers.priceContract=req.body.priceContract;
 
         customers.save(function(err){
             if (err) console.log(err);
@@ -104,14 +110,19 @@ router.get('/customersAdd',function(req,res){
 //Customers Add post data
 router.post('/customersAdd',function(req,res){
     var newCustomer= new Customers({
-        name:       req.body.name,
-        phone:      req.body.phone,
-        mobile:     req.body.mobile,
-        email:      req.body.email,
-        taxisUser:  req.body.taxisUser,
-        taxisPass:  req.body.taxisPass,
-        amka:       req.body.amka,
-        user :      req.user._id
+        name:           req.body.name,
+        occupation:     req.body.occupation,
+        address:        req.body.address,
+        taxId:          req.body.taxId,
+        taxOffice:      req.body.taxOffice,
+        phone:          req.body.phone,
+        mobile:         req.body.mobile,
+        email:          req.body.email,
+        taxisUser:      req.body.taxisUser,
+        taxisPass:      req.body.taxisPass,
+        amka:           req.body.amka,
+        user :          req.user._id,
+        priceContract:  req.body.priceContract
     })
 
     newCustomer.save(function(err){
@@ -177,6 +188,39 @@ router.post('/taxis',function(req,res){
                 driver.findElement(By.name('ssousername')).sendKeys(customer.taxisUser);
                 driver.findElement(By.name('password')).sendKeys(customer.taxisPass);
                 driver.findElement(By.xpath("/*//*[@value='OK']")).click();
+            });
+        }
+    })
+})
+
+//Paymenent invoice
+router.get('/prepareInvoice',function(req,res){
+    Customers.find({user:req.user._id}, null, {sort: {name: 1}},function(err,customers){
+        if (err) console.log(err);
+        res.render('prepareInvoice',{
+            name: req.user.name,
+            customers:customers
+        })
+    })
+})
+
+//Paymenent invoice
+router.post('/invoice',function(req,res){
+    Customers.findOne({_id: req.body.customer},function(err,customer){
+        if(err) console.log("Customer not Found");
+        else{
+            console.log("Customer Found");
+            var newInvoice= new Invoices({
+                invoiceNumber:  Number,
+                totalPrice:     req.body.totalPrice,
+                dateOfPublish:  req.body.dateOfPublish,
+                description:    req.body.description,
+                customer :      req.body.customer
+            })
+            res.render('invoice',{
+                name: req.user.name,
+                invoice:newInvoice,
+                customer:customer
             });
         }
     })

@@ -13,6 +13,22 @@
                     <input type="text" class="form-control" name="name" value="<%=typeof customers!=='undefined'?customers.name:null%>">
                 </div>
                 <div class="form-group">
+                    <label for="vatId">Επάγγελμα:</label>
+                    <input type="text" class="form-control" name="occupation" value="<%=typeof customers!=='undefined'?customers.occupation:null%>">
+                </div>
+                <div class="form-group">
+                    <label for="vatId">Διεύθυνση:</label>
+                    <input type="text" class="form-control" name="address" value="<%=typeof customers!=='undefined'?customers.address:null%>">
+                </div>
+                <div class="form-group">
+                    <label for="vatId">Α.Φ.Μ:</label>
+                    <input type="text" class="form-control" name="vatId" value="<%=typeof customers!=='undefined'?customers.vatId:null%>">
+                </div>
+                <div class="form-group">
+                    <label for="taxOffice">Δ.Ο.Υ:</label>
+                    <input type="text" class="form-control" name="taxOffice" value="<%=typeof customers!=='undefined'?customers.taxOffice:null%>">
+                </div>
+                <div class="form-group">
                     <label for="phone">Τηλέφωνο:</label>
                     <input type="text" class="form-control" name="phone" value="<%=typeof customers!=='undefined'?customers.phone:null%>">
                 </div>
@@ -35,6 +51,10 @@
                 <div class="form-group">
                     <label for="amka">AMKA:</label>
                     <input type="text" class="form-control" name="amka" value="<%=typeof customers!=='undefined'?customers.amka:null%>">
+                </div>
+                <div class="form-group">
+                    <label for="amka">Συμβόλαιο:</label>
+                    <input type="text" class="form-control" name="priceContract" value="<%=typeof customers!=='undefined'?customers.priceContract:null%>">
                 </div>
                 <button id="btnSubmit" type="submit" class="btn btn-success">Καταχώρηση Πελάτη</button>
             </form>

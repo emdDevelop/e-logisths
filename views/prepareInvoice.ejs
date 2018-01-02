@@ -10,31 +10,43 @@
             <form id="formId" method="post" action="/users/invoice">
                 <div class="form-group">
                     <label for="sel1">Επιλογή Πελάτη:</label>
-                    <select class="form-control" id="sel1">
+                    <select class="form-control" id="selectCustomer" onchange="setCustomerId()">
+                        <option>Επέλεξε Πελάτη</option>
                         <%for(var i=0;i<customers.length;i++){%>
-                            <option><%=customers[i].name%></option>
+                            <option value="<%=customers[i].id%>"><%=customers[i].name%></option>
                         <%}%>
                     </select>
                 </div>
+                <input id="customerHidId" type="hidden" name="customer" value="">
                 <div class="form-group">
-                    <label for="vatId">Ημερομηνία Τιμολογίου:</label>
-                    <input type="text" class="form-control" name="vatId" value="<%=typeof customers!=='undefined'?customers.vatId:null%>">
+                    <label for="dateOfPublish">Ημερομηνία Τιμολογίου:</label>
+                    <input type="text" class="form-control" name="dateOfPublish" value="">
                 </div>
                 <div class="form-group">
-                    <label for="taxOffice">Αξία Τιμολογίου Χωρίς Φ.Π.Α:</label>
-                    <input type="text" class="form-control" name="taxOffice" value="<%=typeof customers!=='undefined'?customers.taxOffice:null%>">
+                    <label for="totalPrice">Αξία Τιμολογίου Χωρίς Φ.Π.Α:</label>
+                    <input type="text" class="form-control" name="totalPrice" value="">
                 </div>
                 <div class="form-group">
-                    <label for="phone">Περιγραφή:</label>
-                    <input type="text" class="form-control" name="phone" value="<%=typeof customers!=='undefined'?customers.phone:null%>">
+                    <label for="description">Περιγραφή:</label>
+                    <input type="text" class="form-control" name="description" value="">
                 </div>
                 <button id="btnSubmit" type="submit" class="btn btn-success">Έκδοση</button>
             </form>
         </div>
     </div>
 </div>
-
 <% include templates/footer.ejs %>
+
+<script>
+
+    function setCustomerId(){
+        var customerHidId=document.getElementById('customerHidId');
+        var customerList=document.getElementById('selectCustomer');
+        var customerValue=customerList.options[customerList.selectedIndex].value;
+        customerHidId.value=customerValue;
+    }
+
+</script>
 </body>
 
 </html>

@@ -2,13 +2,18 @@ var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 
 var customersSchema= new Schema({
-    name:       String,
-    phone:      Number,
-    mobile:     Number,
-    email:      String,
-    taxisUser:  String,
-    taxisPass:  String,
-    amka:       String,
+    name:           String,
+    occupation:     String,
+    address:        String,
+    vatId:          String,
+    taxOffice:      String,
+    phone:          Number,
+    mobile:         Number,
+    email:          String,
+    taxisUser:      String,
+    taxisPass:      String,
+    amka:           String,
+    priceContract:  Number,
     user :      [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
