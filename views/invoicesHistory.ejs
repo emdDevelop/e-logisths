@@ -1,0 +1,38 @@
+<% include templates/header.ejs %>
+<body>
+
+<div class="container" style="background-color: #eee">
+    <% include templates/body.ejs %>
+    <div class="row content">
+        <% include templates/navbar.ejs %>
+        <div class="col-sm-9">
+            <h3>Πελάτες</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Α/Α</th>
+                    <th>Επωνυμία</th>
+                    <th>Ημερομηνία</th>
+                    <th>Ποσό</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% invoices.forEach(function(invoices){%>
+                <tr>
+                    <td><%=invoices.invoiceNumber%></td>
+                    <td><%=invoices.customer.name%></td>
+                    <td><%=invoices.dateOfPublish%></td>
+                    <td><%=invoices.customer.totalPrice%></td>
+                </tr>
+                <%})%>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<% include templates/footer.ejs %>
+</body>
+
+</html>

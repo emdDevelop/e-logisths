@@ -1,47 +1,45 @@
-var express=require('express');
-var router=express.Router();
-var webdriver=require('selenium-webdriver');
+var express = require('express');
+var router = express.Router();
+var webdriver = require('selenium-webdriver');
 var firefox = require('selenium-webdriver/firefox');
-var path=require('path');
-var User=require('../models/user');
-var Customers=require('../models/customers');
-var Invoices=require('../models/invoice');
+var path = require('path');
+var User = require('../models/user');
+var Customers = require('../models/customers');
+var Invoices = require('../models/invoice');
 
 By = webdriver.By,
     until = webdriver.until;
 
-router.use(function requireLogin (req, res, next) {
-    if (!req.user)
-    {
+router.use(function requireLogin(req, res, next) {
+    if (!req.user) {
         res.redirect('/login');
     }
-    else
-    {
+    else {
         next();
     }
 })
 
 //User profile page
-router.get('/profile',function(req,res){
-    var d=new Date(req.user.created_date);
-    var mydate= d.getDate()+'-'+ (d.getMonth()+1)+'-'+ d.getFullYear();
+router.get('/profile', function (req, res) {
+    var d = new Date(req.user.created_date);
+    var mydate = d.getDate() + '-' + (d.getMonth() + 1) + '-' + d.getFullYear();
     //console.log(req.flatsShow);
-    res.render('profile',{
+    res.render('profile', {
         name: req.user.name,
-        username:req.user.username,
-        date:mydate
+        username: req.user.username,
+        date: mydate
     });
 })
 
 //Update profile
-router.post('/updateProfile',function(req,res){
-    User.findById(req.user._id,function(err,user){
-        if(err) console.log(err);
-        user.name=req.body.name;
-        user.username=req.body.username;
+router.post('/updateProfile', function (req, res) {
+    User.findById(req.user._id, function (err, user) {
+        if (err) console.log(err);
+        user.name = req.body.name;
+        user.username = req.body.username;
 
-        user.save(function(err,update){
-            if(err) throw err;
+        user.save(function (err, update) {
+            if (err) throw err;
             console.log('update');
             res.redirect('profile');
         })
@@ -49,51 +47,51 @@ router.post('/updateProfile',function(req,res){
 })
 
 //Customers page
-router.get('/customers',function(req,res){
-    Customers.find({user:req.user._id}, null, {sort: {name: 1}},function(err,customers){
+router.get('/customers', function (req, res) {
+    Customers.find({user: req.user._id}, null, {sort: {name: 1}}, function (err, customers) {
         if (err) console.log(err);
-        res.render('customers',{
+        res.render('customers', {
             name: req.user.name,
-            customers:customers
+            customers: customers
         });
     })
 })
 
-router.get('/customers/:customersId',function(req,res){
-    Customers.findOne({_id: req.params.customersId},function(err,customers){
+router.get('/customers/:customersId', function (req, res) {
+    Customers.findOne({_id: req.params.customersId}, function (err, customers) {
         if (err) console.log(err);
 
-        res.render('customersAdd',{
+        res.render('customersAdd', {
             name: req.user.name,
-            customers:customers
+            customers: customers
         });
     })
 })
 
-router.post('/customers/:customersId',function(req,res){
-    Customers.findOne({_id: req.params.customersId},function(err,customers){
+router.post('/customers/:customersId', function (req, res) {
+    Customers.findOne({_id: req.params.customersId}, function (err, customers) {
         if (err) console.log(err);
 
-        customers.name=req.body.name;
-        customers.occupation=req.body.occupation;
-        customers.address=req.body.address;
-        customers.vatId=req.body.vatId;
-        customers.taxOffice=req.body.taxOffice;
-        customers.phone=req.body.phone;
-        customers.mobile=req.body.mobile;
-        customers.email=req.body.email;
-        customers.taxisUser=req.body.taxisUser;
-        customers.taxisPass=req.body.taxisPass;
-        customers.amka=req.body.amka;
-        customers.priceContract=req.body.priceContract;
+        customers.name = req.body.name;
+        customers.occupation = req.body.occupation;
+        customers.address = req.body.address;
+        customers.vatId = req.body.vatId;
+        customers.taxOffice = req.body.taxOffice;
+        customers.phone = req.body.phone;
+        customers.mobile = req.body.mobile;
+        customers.email = req.body.email;
+        customers.taxisUser = req.body.taxisUser;
+        customers.taxisPass = req.body.taxisPass;
+        customers.amka = req.body.amka;
+        customers.priceContract = req.body.priceContract;
 
-        customers.save(function(err){
+        customers.save(function (err) {
             if (err) console.log(err);
-            else{
+            else {
                 console.log('Customers saved....');
-                res.render('customersAdd',{
+                res.render('customersAdd', {
                     name: req.user.name,
-                    customers:customers
+                    customers: customers
                 });
             }
         })
@@ -101,66 +99,66 @@ router.post('/customers/:customersId',function(req,res){
 })
 
 //Customers add page
-router.get('/customersAdd',function(req,res){
-    res.render('customersAdd',{
+router.get('/customersAdd', function (req, res) {
+    res.render('customersAdd', {
         name: req.user.name
     });
 })
 
 //Customers Add post data
-router.post('/customersAdd',function(req,res){
-    var newCustomer= new Customers({
-        name:           req.body.name,
-        occupation:     req.body.occupation,
-        address:        req.body.address,
-        taxId:          req.body.taxId,
-        taxOffice:      req.body.taxOffice,
-        phone:          req.body.phone,
-        mobile:         req.body.mobile,
-        email:          req.body.email,
-        taxisUser:      req.body.taxisUser,
-        taxisPass:      req.body.taxisPass,
-        amka:           req.body.amka,
-        user :          req.user._id,
-        priceContract:  req.body.priceContract
+router.post('/customersAdd', function (req, res) {
+    var newCustomer = new Customers({
+        name: req.body.name,
+        occupation: req.body.occupation,
+        address: req.body.address,
+        taxId: req.body.taxId,
+        taxOffice: req.body.taxOffice,
+        phone: req.body.phone,
+        mobile: req.body.mobile,
+        email: req.body.email,
+        taxisUser: req.body.taxisUser,
+        taxisPass: req.body.taxisPass,
+        amka: req.body.amka,
+        user: req.user._id,
+        priceContract: req.body.priceContract
     })
 
-    newCustomer.save(function(err){
+    newCustomer.save(function (err) {
         if (err) console.log(err);
         else console.log('Customer saved successfully');
-        res.render('customersAdd',{
-            name:req.user.name,
-            customers:newCustomer
+        res.render('customersAdd', {
+            name: req.user.name,
+            customers: newCustomer
         });
     })
 })
 
 //Page to connect to taxisnet
-router.get('/taxis',function(req,res){
-    Customers.find({user:req.user._id}, null, {sort: {name: 1}},function(err,customers){
+router.get('/taxis', function (req, res) {
+    Customers.find({user: req.user._id}, null, {sort: {name: 1}}, function (err, customers) {
         if (err) console.log(err);
-        res.render('taxis',{
+        res.render('taxis', {
             name: req.user.name,
-            customers:customers
+            customers: customers
         });
     })
 })
 
 //Taxis connect
-router.post('/taxis',function(req,res){
-    Customers.findOne({user:req.user._id,_id:req.body.selectedCustomer},function(err,customer){
+router.post('/taxis', function (req, res) {
+    Customers.findOne({user: req.user._id, _id: req.body.selectedCustomer}, function (err, customer) {
         var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-        ip=ip.match(/\d+\.\d+\.\d+\.\d+/);
-        var url='http://'+ip+':4444/wd/hub';
+        ip = ip.match(/\d+\.\d+\.\d+\.\d+/);
+        var url = 'http://' + ip + ':4444/wd/hub';
         console.log(url);
         if (err) console.log(err);
-        else{
+        else {
             res.redirect('taxis');
 
             var profile = new firefox.Profile();
 //set download directory
             profile.preferences_["browser.download.folderList"] = 2
-            profile.preferences_["browser.download.dir"] = path.join(__dirname+ '/');
+            profile.preferences_["browser.download.dir"] = path.join(__dirname + '/');
 //disable Firefox's built-in PDF viewer
             profile.preferences_["pdfjs.disabled"] = true;
             profile.preferences_["browser.helperApps.neverAsk.saveToDisk"] = 'application/pdf';
@@ -193,37 +191,55 @@ router.post('/taxis',function(req,res){
     })
 })
 
-//Paymenent invoice
-router.get('/prepareInvoice',function(req,res){
-    Customers.find({user:req.user._id}, null, {sort: {name: 1}},function(err,customers){
+//Paymenent invoice preparation
+router.get('/prepareInvoice', function (req, res) {
+    Customers.find({user: req.user._id}, null, {sort: {name: 1}}, function (err, customers) {
         if (err) console.log(err);
-        res.render('prepareInvoice',{
+        res.render('prepareInvoice', {
             name: req.user.name,
-            customers:customers
+            customers: customers
         })
     })
 })
 
 //Paymenent invoice
-router.post('/invoice',function(req,res){
-    Customers.findOne({_id: req.body.customer},function(err,customer){
-        if(err) console.log("Customer not Found");
-        else{
+router.post('/invoice', function (req, res) {
+    Customers.findOne({_id: req.body.customer}, function (err, customer) {
+        if (err) console.log("Customer not Found");
+        else {
             console.log("Customer Found");
-            var newInvoice= new Invoices({
-                invoiceNumber:  Number,
-                totalPrice:     req.body.totalPrice,
-                dateOfPublish:  req.body.dateOfPublish,
-                description:    req.body.description,
-                customer :      req.body.customer
+            Invoices.count({}, function (err, count) {
+                var newInvoice = new Invoices({
+                    invoiceNumber: count + 1,
+                    totalPrice: req.body.totalPrice,
+                    dateOfPublish: req.body.dateOfPublish,
+                    description: req.body.description,
+                    customer: req.body.customer
+                })
+                //Save to database new invoice
+                newInvoice.save(function (err) {
+                    res.render('invoice', {
+                        name: req.user.name,
+                        invoice: newInvoice,
+                        customer: customer
+                    });
+                });
             })
-            res.render('invoice',{
-                name: req.user.name,
-                invoice:newInvoice,
-                customer:customer
-            });
         }
     })
+})
+
+//History invoice
+router.get('/invoicesHistory', function (req, res) {
+    Invoices.find({}, null, {sort: {invoiceNumber: 1}}, function (err, invoices) {
+        if (err) console.log("Invoices not Found");
+        else {
+            res.render('invoicesHistory', {
+                name: req.user.name,
+                invoices: invoices
+            });
+        }
+    });
 })
 
 module.exports = router;

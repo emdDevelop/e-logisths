@@ -77,5 +77,5 @@ server.use(require('./controllers'));
  we only need the folder name.*/
 
 server.listen(4000,function(){
-    console.log('Server started....');
+    console.log('Server started at port 4000....');
 })

@@ -4,7 +4,7 @@ var Schema=mongoose.Schema;
 var invoicesSchema= new Schema({
     invoiceNumber:  Number,
     totalPrice:     Number,
-    dateOfPublish:  String,
+    dateOfPublish:  {type:Date,default:Date.now},
     description:    String,
     customer :      [{ type: Schema.Types.ObjectId, ref: 'Customer' }]
 })
