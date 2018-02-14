@@ -20,14 +20,13 @@
                 <% invoices.forEach(function(invoices){%>
                 <tr>
                     <td><%=invoices.invoiceNumber%></td>
-                    <td><%=invoices.customer.name%></td>
+                    <td><%=invoices.customer%></td>
                     <td><%=invoices.dateOfPublish%></td>
-                    <td><%=invoices.customer.totalPrice%></td>
+                    <td><%=invoices.totalPrice%></td>
                 </tr>
                 <%})%>
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
