@@ -242,6 +242,44 @@ router.get('/invoicesHistory', function (req, res) {
     });
 })
 
+router.get('/invoicesHistory/:invoicesId', function (req, res) {
+    Invoices.findOne({_id: req.params.invoicesId}, null, {sort: {invoiceNumber: 1}}, function (err, invoices) {
+        if (err) console.log(err);
+        else{
+            Customers.findOne({_id:invoices.customer},function(err,customer){
+                res.render('prepareInvoice', {
+                    name: req.user.name,
+                    invoices: invoices,
+                    customers: customer
+                })
+            })
+        }
+    })
+})
+
+router.post('/invoicesHistory/:invoicesId', function (req, res) {
+    Invoices.findOne({_id: req.params.invoicesId}, function (err, invoices) {
+        if (err) console.log(err);
+        else{
+            invoices.totalPrice=req.body.totalPrice;
+            invoices.dateOfPublish=req.body.dateOfPublish;
+            invoices.description=req.body.description;
+
+            invoices.save(function (err) {
+                if (err) console.log(err);
+                else {
+                    console.log('Invoice saved....');
+                    res.render('prepareInvoice', {
+                        name: req.user.name,
+                        invoices: invoices,
+                        customers: {}
+                    })
+                }
+            })
+        }
+    })
+})
+
 module.exports = router;
 
 

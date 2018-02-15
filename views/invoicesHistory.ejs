@@ -16,15 +16,8 @@
                     <th>Ποσό</th>
                 </tr>
                 </thead>
-                <tbody>
-                <% invoices.forEach(function(invoices){%>
-                <tr>
-                    <td><%=invoices.invoiceNumber%></td>
-                    <td><%=invoices.customer%></td>
-                    <td><%=invoices.dateOfPublish%></td>
-                    <td><%=invoices.totalPrice%></td>
-                </tr>
-                <%})%>
+                <tbody id="invoicesList">
+
                 </tbody>
             </table>
         </div>
@@ -32,6 +25,37 @@
 </div>
 
 <% include templates/footer.ejs %>
+<script>
+var parent=document.getElementById('invoicesList');
+var trElem;
+var td1;
+var td2;
+var td3;
+var td4;
+var setTimeFormat;
+var monthsArray=[1,2,3,4,5,6,7,8,9,10,11,12];
+var invoiceDate;
+var setDateToInput;
+<% invoices.forEach(function(invoices){%>
+    invoiceDate=new Date('<%=invoices.dateOfPublish%>');
+    setDateToInput=invoiceDate.getDate()+'/'+ monthsArray[invoiceDate.getMonth()]+'/'+invoiceDate.getFullYear();
+    trElem=document.createElement('tr');
+    td1=document.createElement('td');
+    td1.innerHTML='<%=invoices.invoiceNumber%>';
+    td2=document.createElement('td');
+    td2.innerHTML='<a href=\'\/users\/invoicesHistory\/<%=invoices._id%>\'><%=invoices.customer%><\/a>';
+    td3=document.createElement('td');
+    td3.innerHTML=setDateToInput;
+    td4=document.createElement('td');
+    td4.innerHTML='<%=invoices.totalPrice%>';
+    trElem.appendChild(td1);
+    trElem.appendChild(td2);
+    trElem.appendChild(td3);
+    trElem.appendChild(td4);
+    parent.appendChild(trElem);
+<%})%>
+
+</script>
 </body>
 
 </html>
