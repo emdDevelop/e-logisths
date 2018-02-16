@@ -264,15 +264,20 @@ router.post('/invoicesHistory/:invoicesId', function (req, res) {
             invoices.totalPrice=req.body.totalPrice;
             invoices.dateOfPublish=req.body.dateOfPublish;
             invoices.description=req.body.description;
-
+            //Save the corrected invoice to Database
             invoices.save(function (err) {
                 if (err) console.log(err);
                 else {
                     console.log('Invoice saved....');
-                    res.render('prepareInvoice', {
-                        name: req.user.name,
-                        invoices: invoices,
-                        customers: {}
+                    Customers.findOne({_id:invoices.customer},function(err,customer){
+                        if (err) console.log(err);
+                        else{
+                            res.render('invoice', {
+                                name: req.user.name,
+                                invoice: invoices,
+                                customer: customer
+                            })
+                        }
                     })
                 }
             })

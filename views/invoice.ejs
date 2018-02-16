@@ -40,8 +40,8 @@
                         <h4>Στοιχεία Παραστατικού:</h4>
 
                         <p><strong>Τιμολόγιο Παροχής Υπηρεσιών</strong><br>
-                            Ημερομηνία Έκδοσης: <%=invoice.dateOfPublish%><br>
-                            Αρ.Παραστατικού: 1
+                            <label>Ημερομηνία Έκδοσης:</label> <span id="dateLabelId"></span><br>
+                            <label>Αρ.Παραστατικού: </label> <span><%=invoice.invoiceNumber%></span>
                         </p>
                     </div>
                 </div>
@@ -65,21 +65,21 @@
                                         <tbody>
 
                                         <tr>
-                                            <td>Λογιστικά - Φορολογικά</td>
-                                            <td class="text-right">600,00</td>
+                                            <td><%=invoice.description%></td>
+                                            <td id='desAreaTotalId' class="text-right"></td>
                                         </tr>
 
                                         <tr>
                                             <td class="thick-line text-right"><strong>Σύνολο</strong></td>
-                                            <td class="thick-line text-right">600,00</td>
+                                            <td id='totalId' class="thick-line text-right"></td>
                                         </tr>
                                         <tr>
                                             <td class="no-line text-right"><strong>ΦΠΑ 24%</strong></td>
-                                            <td class="no-line text-right">144,00</td>
+                                            <td id="vatId" class="no-line text-right"></td>
                                         </tr>
                                         <tr>
                                             <td class="no-line text-right"><strong>Γενικό Σύνολο</strong></td>
-                                            <td class="no-line text-right">744,00</td>
+                                            <td id='priceWithVatId' class="no-line text-right"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -95,7 +95,7 @@
                         <p>
                             <strong>ALPHA BANK</strong><br>
                             IBAN: GR1501402320232002002002035 <br>
-                            Στοιχεία Κατόχου Λογαριασμού:ΛΟΓΙΣΤΙΚΟ ΓΡΑΦΕΙΟ ΕΥΣΤΑΘΟΠΟΥΛΟΥ ΠΑΠΑΣΠΥΡΟΥ Ο.Ε<br>
+                            Στοιχεία Κατόχου Λογαριασμού:ΕΥΣΤΑΘΟΠΟΥΛΟΥ ΚΑΙ ΣΙΑ Ο.Ε<br>
                         </p>
                     </div>
                     <div class="col-sm-6 pull right">
@@ -118,6 +118,24 @@
 </div>
 
 <% include templates/footer.ejs %>
+
+<script>
+    var dateLabelIdElem=document.getElementById('dateLabelId');
+    var formatedDate=formatDate('<%=invoice.dateOfPublish%>');
+    dateLabelIdElem.innerHTML=formatedDate;
+    var vatIdElem=document.getElementById('vatId');
+    var priceToCalcVat=Number('<%=invoice.totalPrice%>');
+    var vat=0.24*priceToCalcVat;
+    vatIdElem.innerHTML=vat.toFixed(2);
+    var totalIdElem=document.getElementById('totalId');
+    totalIdElem.innerHTML=priceToCalcVat.toFixed(2);
+    var desAreaTotalElem=document.getElementById('desAreaTotalId');
+    desAreaTotalElem.innerHTML=priceToCalcVat.toFixed(2);
+    var priceWithVat=priceToCalcVat+vat;
+    var priceWithVatElem=document.getElementById('priceWithVatId');
+    priceWithVatElem.innerHTML=priceWithVat.toFixed(2);
+</script>
+
 </body>
 
 </html>
