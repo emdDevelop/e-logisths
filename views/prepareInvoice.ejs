@@ -40,18 +40,7 @@
 <script>
 
 <%if(typeof invoices!=='undefined'){%>
-    var monthsArray=[1,2,3,4,5,6,7,8,9,10,11,12];
-    var invoiceDate=new Date('<%=invoices.dateOfPublish%>');
-    var setDateToInput;
-    if(invoiceDate.getMonth()<10)
-        setDateToInput=invoiceDate.getFullYear()+'-0'+monthsArray[invoiceDate.getMonth()]+'-'+invoiceDate.getDate();
-    else if(invoiceDate.getDate()<10)
-        setDateToInput=invoiceDate.getFullYear()+'-'+monthsArray[invoiceDate.getMonth()]+'-0'+invoiceDate.getDate();
-    else if(invoiceDate.getMonth()<10 && invoiceDate.getDate()<10)
-        setDateToInput=invoiceDate.getFullYear()+'-0'+monthsArray[invoiceDate.getMonth()]+'-0'+invoiceDate.getDate();
-    else
-        setDateToInput=invoiceDate.getFullYear()+'-'+monthsArray[invoiceDate.getMonth()]+'-'+invoiceDate.getDate();
-
+    var setDateToInput=formatDateForInput('<%=invoices.dateOfPublish%>');
     var selectElement=document.getElementById('selectCustomer');
     selectElement.parentNode.removeChild(selectElement);
     document.getElementById('h3Label').innerHTML='Διόρθωση Τιμολογίου με Αριθμό: <%=invoices.invoiceNumber%>';
