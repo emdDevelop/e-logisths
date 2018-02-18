@@ -2,10 +2,10 @@ var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 
 var customersSchema= new Schema({
-    name:           String,
+    name:           {type:String,required: true,unique:true},
     occupation:     String,
     address:        String,
-    vatId:          String,
+    vatId:          {type:String,required: true,unique:true},
     taxOffice:      String,
     phone:          Number,
     mobile:         Number,

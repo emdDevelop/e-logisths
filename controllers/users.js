@@ -46,7 +46,7 @@ router.post('/updateProfile', function (req, res) {
     })
 })
 
-//Customers page
+//Customers page .List with all customers
 router.get('/customers', function (req, res) {
     Customers.find({user: req.user._id}, null, {sort: {name: 1}}, function (err, customers) {
         if (err) console.log(err);
@@ -57,6 +57,7 @@ router.get('/customers', function (req, res) {
     })
 })
 
+//Specific Customer details
 router.get('/customers/:customersId', function (req, res) {
     Customers.findOne({_id: req.params.customersId}, function (err, customers) {
         if (err) console.log(err);
@@ -68,6 +69,7 @@ router.get('/customers/:customersId', function (req, res) {
     })
 })
 
+//Edit specific customer details
 router.post('/customers/:customersId', function (req, res) {
     Customers.findOne({_id: req.params.customersId}, function (err, customers) {
         if (err) console.log(err);
@@ -98,7 +100,7 @@ router.post('/customers/:customersId', function (req, res) {
     })
 })
 
-//Customers add page
+//Customers add new customer page
 router.get('/customersAdd', function (req, res) {
     res.render('customersAdd', {
         name: req.user.name
@@ -122,7 +124,7 @@ router.post('/customersAdd', function (req, res) {
         user: req.user._id,
         priceContract: req.body.priceContract
     })
-
+    //Save the new customer to database
     newCustomer.save(function (err) {
         if (err) console.log(err);
         else console.log('Customer saved successfully');
@@ -156,13 +158,13 @@ router.post('/taxis', function (req, res) {
             res.redirect('taxis');
 
             var profile = new firefox.Profile();
-//set download directory
+            //set download directory
             profile.preferences_["browser.download.folderList"] = 2
             profile.preferences_["browser.download.dir"] = path.join(__dirname + '/');
-//disable Firefox's built-in PDF viewer
+            //disable Firefox's built-in PDF viewer
             profile.preferences_["pdfjs.disabled"] = true;
             profile.preferences_["browser.helperApps.neverAsk.saveToDisk"] = 'application/pdf';
-//disable Adobe Acrobat PDF preview plugin
+            //disable Adobe Acrobat PDF preview plugin
             profile.preferences_["plugin.scan.plid.all"] = false
             profile.preferences_["plugin.scan.Acrobat"] = "99.0"
 
