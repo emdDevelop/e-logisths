@@ -39,7 +39,7 @@ var invoiceDate;
     td1=document.createElement('td');
     td1.innerHTML='<%=invoices.invoiceNumber%>';
     td2=document.createElement('td');
-    td2.innerHTML='<a href=\'\/users\/invoicesHistory\/<%=invoices._id%>\'><%=invoices.customer%><\/a>';
+    td2.innerHTML='<a href=\'\/users\/invoicesHistory\/<%=invoices._id%>\'><%=invoices.customer.name%><\/a>';
     td3=document.createElement('td');
     td3.innerHTML=invoiceDate;
     td4=document.createElement('td');

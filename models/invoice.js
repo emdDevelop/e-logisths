@@ -6,11 +6,11 @@ var invoicesSchema= new Schema({
     totalPrice:     Number,
     dateOfPublish:  {type:Date,default:Date.now},
     description:    String,
-    customer :      [{ type: Schema.Types.ObjectId, ref: 'Customer' }]
-})
+    customer :      { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' }
+});
 
 //create the mongoose Model by calling mongoose.model.
-var Invoices=mongoose.model('invoices',invoicesSchema);
+var Invoices=mongoose.model('Invoice',invoicesSchema);
 
 module.exports=Invoices;
 

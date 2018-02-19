@@ -14,11 +14,11 @@ var customersSchema= new Schema({
     taxisPass:      String,
     amka:           String,
     priceContract:  Number,
-    user :      [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    user :          [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
 //create the mongoose Model by calling mongoose.model.
-var Customers=mongoose.model('customers',customersSchema);
+var Customers=mongoose.model('Customer',customersSchema);
 
 module.exports=Customers;
 
