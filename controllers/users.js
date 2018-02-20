@@ -236,7 +236,6 @@ router.get('/invoicesHistory', function (req, res) {
     Invoices.find({}, null, {sort: {invoiceNumber: 1}}).populate('customer').exec(function (err, invoices) {
         if (err) console.log(err);
         else {
-            console.log(invoices);
             res.render('invoicesHistory', {
                 name: req.user.name,
                 invoices: invoices
