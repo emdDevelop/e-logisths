@@ -11,7 +11,7 @@ var User=require('./models/user');//database for user configutation
 var server=express();
 var dbCollection=[];
 //connect to database test;
-mongoose.connect('mongodb://localhost/e-logisths',{ useMongoClient: true });
+mongoose.connect('mongodb://localhost/e-logisths');
 var db=mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once('open', function() {

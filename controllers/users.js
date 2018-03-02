@@ -86,6 +86,7 @@ router.post('/customers/:customersId', function (req, res) {
         customers.taxisPass = req.body.taxisPass;
         customers.amka = req.body.amka;
         customers.priceContract = req.body.priceContract;
+        customers.regularCustomers=req.body.regularCustomers;
 
         customers.save(function (err) {
             if (err) console.log(err);
@@ -122,7 +123,8 @@ router.post('/customersAdd', function (req, res) {
         taxisPass: req.body.taxisPass,
         amka: req.body.amka,
         user: req.user._id,
-        priceContract: req.body.priceContract
+        priceContract: req.body.priceContract,
+        regularCustomers:req.body.regularCustomers
     })
     //Save the new customer to database
     newCustomer.save(function (err) {
