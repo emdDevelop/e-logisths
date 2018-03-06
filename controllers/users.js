@@ -163,12 +163,6 @@ router.post('/taxis', function (req, res) {
             //set download directory
             profile.preferences_["browser.download.folderList"] = 2
             profile.preferences_["browser.download.dir"] = path.join(__dirname + '/');
-            //disable Firefox's built-in PDF viewer
-            profile.preferences_["pdfjs.disabled"] = true;
-            profile.preferences_["browser.helperApps.neverAsk.saveToDisk"] = 'application/pdf';
-            //disable Adobe Acrobat PDF preview plugin
-            profile.preferences_["plugin.scan.plid.all"] = false
-            profile.preferences_["plugin.scan.Acrobat"] = "99.0"
 
             var opts = new firefox.Options();
             opts.setProfile(profile);
