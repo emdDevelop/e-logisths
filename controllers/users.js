@@ -40,7 +40,7 @@ router.post('/updateProfile', function (req, res) {
 
         user.save(function (err, update) {
             if (err) throw err;
-            console.log('update');
+            console.log('Profile updated');
             res.redirect('profile');
         })
     })
