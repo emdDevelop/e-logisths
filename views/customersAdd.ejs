@@ -56,6 +56,12 @@
                     <label for="amka">Συμβόλαιο:</label>
                     <input type="text" class="form-control" name="priceContract" value="<%=typeof customers!=='undefined'?customers.priceContract:null%>">
                 </div>
+                <div class="radio">
+                    <label><input type="radio" name="regularCustomers" value="true" id="reqCustomer">Τακτικός Πελάτης</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="regularCustomers" value="false" id="exCustomer">Εξωτερικός Πελάτης</label>
+                </div>
 
                 <button id="btnSubmit" type="submit" class="btn btn-success">Καταχώρηση Πελάτη</button>
             </form>
@@ -68,7 +74,15 @@
     <%if(typeof customers!=='undefined'){%>
         document.getElementById('h3Label').innerHTML='Καρτέλα Πελάτη';
         document.getElementById('btnSubmit').innerHTML='Διόρθωση Στοιχείων';
-        document.getElementById('formId').action='/users/customers/<%=customers._id%>'
+        document.getElementById('formId').action='/users/customers/<%=customers._id%>';
+    //radio set if checked or not
+        <%if(customers.regularCustomers===true){%>
+            document.getElementById('reqCustomer').checked=true;
+            document.getElementById('exCustomer').checked=false;
+        <%}else{%>
+            document.getElementById('reqCustomer').checked=false;
+            document.getElementById('exCustomer').checked=true;
+        <%}%>
     <%}%>
 </script>
 

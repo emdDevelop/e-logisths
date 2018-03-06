@@ -7,6 +7,12 @@
         <% include templates/navbar.ejs %>
         <div class="col-sm-9">
             <h3>Πελάτες</h3>
+            <!-- Control buttons -->
+            <div id="myBtnContainer">
+                <button class="btn active" onclick="filterSelection('all')">Ολοι</button>
+                <button class="btn" onclick="filterSelection('regCustomers')"> Τακτικοί Πελάτες</button>
+                <button class="btn" onclick="filterSelection('exCustomers')"> Εξωτερικοί Πελάτες</button>
+            </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -18,25 +24,71 @@
                     <th>Email</th>
                 </tr>
                 </thead>
-                <tbody>
-                <% customers.forEach(function(customers){%>
-                <tr>
-                    <td><a href='/users/customers/<%=customers._id %>'><%=customers.name%></a></td>
-                    <td><%=customers.vatId%></td>
-                    <td><%=customers.taxisUser%></td>
-                    <td><%=customers.taxisPass%></td>
-                    <td><%=customers.amka%></td>
-                    <td><%=customers.email%></td>
-                </tr>
-                <%})%>
+                <tbody id="customersTableId">
+
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>
 
 <% include templates/footer.ejs %>
-</body>
 
+<script>
+    var parent=document.getElementById('customersTableId');
+    var trElem;
+    var td1,td2,td3,td4,td5,td6;
+
+    <%function temps(customers){%>
+        trElem=document.createElement('tr');
+        td1=document.createElement('td');
+        td1.innerHTML='<a href=\'\/users\/customers\/<%=customers._id %>\'><%=customers.name%><\/a>';
+        td2=document.createElement('td');
+        td2.innerHTML='<%=customers.vatId%>';
+        td3=document.createElement('td');
+        td3.innerHTML='<%=customers.taxisUser%>'
+        td4=document.createElement('td');
+        td4.innerHTML='<%=customers.taxisPass%>';
+        td5=document.createElement('td');
+        td5.innerHTML='<%=customers.amka%>';
+        td6=document.createElement('td');
+        td6.innerHTML='<%=customers.email%>';
+        trElem.appendChild(td1);
+        trElem.appendChild(td2);
+        trElem.appendChild(td3);
+        trElem.appendChild(td4);
+        trElem.appendChild(td5);
+        trElem.appendChild(td6);
+        parent.appendChild(trElem);
+    <%}%>
+
+    function createTableCustomers(selection){
+        if(selection==='all'){
+            <% customers.forEach(function(customers){%>
+                <%temps(customers)%>
+            <%})%>
+        }else if(selection==='regCustomers'){
+            <% customers.forEach(function(customers){%>
+                <%if(customers.regularCustomers===true){%>
+                    <%temps(customers)%>
+                <%}%>
+            <%})%>
+        }else{
+            <% customers.forEach(function(customers){%>
+                <%if(customers.regularCustomers===false){%>
+                    <%temps(customers)%>
+                <%}%>
+            <%})%>
+        }
+    }
+
+    function filterSelection(selection){
+            parent.innerHTML='';
+            createTableCustomers(selection);
+    }
+
+    createTableCustomers('all');
+
+</script>
+</body>
 </html>
