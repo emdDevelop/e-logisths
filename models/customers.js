@@ -12,6 +12,8 @@ var customersSchema= new Schema({
     email:              String,
     taxisUser:          String,
     taxisPass:          String,
+    gemiUser:           String,
+    gemiPass:           String,
     amka:               String,
     priceContract:      Number,
     regularCustomers:   Boolean,

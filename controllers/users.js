@@ -84,6 +84,8 @@ router.post('/customers/:customersId', function (req, res) {
         customers.email = req.body.email;
         customers.taxisUser = req.body.taxisUser;
         customers.taxisPass = req.body.taxisPass;
+        customers.gemiUser = req.body.gemiUser;
+        customers.gemiPass = req.body.gemiPass;
         customers.amka = req.body.amka;
         customers.priceContract = req.body.priceContract;
         customers.regularCustomers=req.body.regularCustomers;
@@ -121,6 +123,8 @@ router.post('/customersAdd', function (req, res) {
         email: req.body.email,
         taxisUser: req.body.taxisUser,
         taxisPass: req.body.taxisPass,
+        gemiUser: req.body.gemiUser,
+        gemiPass: req.body.gemiPass,
         amka: req.body.amka,
         user: req.user._id,
         priceContract: req.body.priceContract,
