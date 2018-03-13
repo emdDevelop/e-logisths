@@ -88,6 +88,7 @@ router.post('/customers/:customersId', function (req, res) {
         customers.gemiPass = req.body.gemiPass;
         customers.amka = req.body.amka;
         customers.priceContract = req.body.priceContract;
+        customers.typeOfContract = req.body.typeOfContract;
         customers.regularCustomers=req.body.regularCustomers;
 
         customers.save(function (err) {
@@ -128,6 +129,7 @@ router.post('/customersAdd', function (req, res) {
         amka: req.body.amka,
         user: req.user._id,
         priceContract: req.body.priceContract,
+        typeOfContract: req.body.typeOfContract,
         regularCustomers:req.body.regularCustomers
     })
     //Save the new customer to database

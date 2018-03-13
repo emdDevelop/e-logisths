@@ -63,6 +63,8 @@
                 <div class="form-group">
                     <label for="amka">Συμβόλαιο:</label>
                     <input type="text" class="form-control" name="priceContract" value="<%=typeof customers!=='undefined'?customers.priceContract:null%>">
+                    <label><input type="radio" name="typeOfContract" value="true" id="typeYear">Ετήσιο</label>
+                    <label><input type="radio" name="typeOfContract" value="false" id="typeMonth">Μηνιαίο</label>
                 </div>
                 <div class="radio">
                     <label><input type="radio" name="regularCustomers" value="true" id="reqCustomer">Τακτικός Πελάτης</label>
@@ -91,6 +93,15 @@
             document.getElementById('reqCustomer').checked=false;
             document.getElementById('exCustomer').checked=true;
         <%}%>
+    //radio set for typeOfContract
+        <%if(customers.typeOfContract===true){%>
+            document.getElementById('typeYear').checked=true;
+            document.getElementById('typeMonth').checked=false;
+        <%}else{%>
+            document.getElementById('typeYear').checked=false;
+            document.getElementById('typeMonth').checked=true;
+        <%}%>
+
     <%}%>
 </script>
 

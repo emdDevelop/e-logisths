@@ -13,15 +13,25 @@
                 <button class="btn" onclick="filterSelection('regCustomers')"> Τακτικοί Πελάτες</button>
                 <button class="btn" onclick="filterSelection('exCustomers')"> Εξωτερικοί Πελάτες</button>
             </div>
+            <div>
+                <label class="checkbox-inline"><input type="checkbox" name="filterRecords" value="taxisUserId" onchange="filterRecords()" checked="checked">Taxis Username</label>
+                <label class="checkbox-inline"><input type="checkbox" name="filterRecords" value="taxisPassId" onchange="filterRecords()" checked="checked">Taxis Password</label>
+                <label class="checkbox-inline"><input type="checkbox" name="filterRecords" value="amkaId" onchange="filterRecords()">ΑΜΚΑ</label>
+                <label class="checkbox-inline"><input type="checkbox" name="filterRecords" value="emailId" onchange="filterRecords()">Email</label>
+                <label class="checkbox-inline"><input type="checkbox" name="filterRecords" value="gemiUserId" onchange="filterRecords()">Γεμή Username</label>
+                <label class="checkbox-inline"><input type="checkbox" name="filterRecords" value="gemiPassId" onchange="filterRecords()">Γεμή Password</label>
+            </div>
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>Επωνυμία</th>
                     <th>ΑΦΜ</th>
-                    <th>Taxis Username</th>
-                    <th>Taxis Password</th>
-                    <th>ΑΜΚΑ</th>
-                    <th>Email</th>
+                    <th class="th">Taxis Username</th>
+                    <th class="th">Taxis Password</th>
+                    <th class="th">ΑΜΚΑ</th>
+                    <th class="th">Email</th>
+                    <th class="th">Γεμή Username</th>
+                    <th class="th">Γεμή Password</th>
                 </tr>
                 </thead>
                 <tbody id="customersTableId">
@@ -37,7 +47,39 @@
 <script>
     var parent=document.getElementById('customersTableId');
     var trElem;
-    var td1,td2,td3,td4,td5,td6;
+    var td1,td2,td3,td4,td5,td6,td7,td8;
+    //filter dictionary implemented with object in javascript
+    var filterList={
+        taxisUserId:0,
+        taxisPassId:0,
+        amkaId:0,
+        emailId:0,
+        gemiUserId:0,
+        gemiPassId:0
+    };
+
+    function filterRecords(){
+        var list=document.getElementsByName("filterRecords");
+        var listTh=document.getElementsByClassName('th');
+        var tdElem;
+
+        for(var i=0;i<list.length;i++){
+            tdElem=document.getElementsByClassName(list[i].value);
+            if(list[i].checked){
+                filterList[list[i].value]=1;
+                listTh[i].style.display='';
+                for(var j=0;j<tdElem.length;j++){
+                    tdElem[j].style.display='';
+                }
+            }else{
+                filterList[list[i].value]=0;
+                listTh[i].style.display='none';
+                for(var j=0;j<tdElem.length;j++){
+                    tdElem[j].style.display='none';
+                }
+            }
+        }
+    }
 
     <%function temps(customers){%>
         trElem=document.createElement('tr');
@@ -47,18 +89,30 @@
         td2.innerHTML='<%=customers.vatId%>';
         td3=document.createElement('td');
         td3.innerHTML='<%=customers.taxisUser%>'
+        td3.className='taxisUserId';
         td4=document.createElement('td');
         td4.innerHTML='<%=customers.taxisPass%>';
+        td4.className='taxisPassId';
         td5=document.createElement('td');
         td5.innerHTML='<%=customers.amka%>';
+        td5.className='amkaId';
         td6=document.createElement('td');
         td6.innerHTML='<%=customers.email%>';
+        td6.className='emailId';
+        td7=document.createElement('td');
+        td7.innerHTML='<%=customers.gemiUser%>';
+        td7.className='gemiUserId';
+        td8=document.createElement('td');
+        td8.innerHTML='<%=customers.gemiPass%>';
+        td8.className='gemiPassId';
         trElem.appendChild(td1);
         trElem.appendChild(td2);
         trElem.appendChild(td3);
         trElem.appendChild(td4);
         trElem.appendChild(td5);
         trElem.appendChild(td6);
+        trElem.appendChild(td7);
+        trElem.appendChild(td8);
         parent.appendChild(trElem);
     <%}%>
 
@@ -80,13 +134,14 @@
                 <%}%>
             <%})%>
         }
+        filterRecords();
     }
 
     function filterSelection(selection){
             parent.innerHTML='';
             createTableCustomers(selection);
     }
-
+//initialize table view with all records
     createTableCustomers('all');
 
 </script>

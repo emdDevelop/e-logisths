@@ -16,6 +16,7 @@ var customersSchema= new Schema({
     gemiPass:           String,
     amka:               String,
     priceContract:      Number,
+    typeOfContract:     Boolean,
     regularCustomers:   Boolean,
     user :              [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
