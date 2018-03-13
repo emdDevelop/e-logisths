@@ -90,6 +90,7 @@ router.post('/customers/:customersId', function (req, res) {
         customers.priceContract = req.body.priceContract;
         customers.typeOfContract = req.body.typeOfContract;
         customers.regularCustomers=req.body.regularCustomers;
+        customers.efkaConfirm=req.body.efkaConfirm;
 
         customers.save(function (err) {
             if (err) console.log(err);
@@ -130,7 +131,8 @@ router.post('/customersAdd', function (req, res) {
         user: req.user._id,
         priceContract: req.body.priceContract,
         typeOfContract: req.body.typeOfContract,
-        regularCustomers:req.body.regularCustomers
+        regularCustomers:req.body.regularCustomers,
+        efkaConfirm:req.body.efkaConfirm
     })
     //Save the new customer to database
     newCustomer.save(function (err) {

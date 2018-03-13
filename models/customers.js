@@ -18,6 +18,7 @@ var customersSchema= new Schema({
     priceContract:      Number,
     typeOfContract:     Boolean,
     regularCustomers:   Boolean,
+    efkaConfirm:        Boolean,
     user :              [{ type: Schema.Types.ObjectId, ref: 'User' }]
 })
 
