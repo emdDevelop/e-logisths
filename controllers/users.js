@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var webdriver = require('selenium-webdriver');
 var firefox = require('selenium-webdriver/firefox');
+var fs=require('fs');
 var path = require('path');
 var User = require('../models/user');
 var Customers = require('../models/customers');
@@ -67,7 +68,7 @@ router.get('/customers/:customersId', function (req, res) {
             customers: customers
         });
     })
-})
+});
 
 //Edit specific customer details
 router.post('/customers/:customersId', function (req, res) {
@@ -103,14 +104,14 @@ router.post('/customers/:customersId', function (req, res) {
             }
         })
     })
-})
+});
 
 //Customers add new customer page
 router.get('/customersAdd', function (req, res) {
     res.render('customersAdd', {
         name: req.user.name
     });
-})
+});
 
 //Customers Add post data
 router.post('/customersAdd', function (req, res) {
@@ -143,7 +144,7 @@ router.post('/customersAdd', function (req, res) {
             customers: newCustomer
         });
     })
-})
+});
 
 //Page to connect to taxisnet
 router.get('/taxis', function (req, res) {
@@ -154,7 +155,7 @@ router.get('/taxis', function (req, res) {
             customers: customers
         });
     })
-})
+});
 
 //Taxis connect
 router.post('/taxis', function (req, res) {
@@ -169,7 +170,7 @@ router.post('/taxis', function (req, res) {
 
             var profile = new firefox.Profile();
             //set download directory
-            profile.preferences_["browser.download.folderList"] = 2
+            profile.preferences_["browser.download.folderList"] = 2;
             profile.preferences_["browser.download.dir"] = path.join(__dirname + '/');
 
             var opts = new firefox.Options();
@@ -195,7 +196,7 @@ router.post('/taxis', function (req, res) {
             });
         }
     })
-})
+});
 
 //Paymenent invoice preparation
 router.get('/prepareInvoice', function (req, res) {
@@ -206,7 +207,7 @@ router.get('/prepareInvoice', function (req, res) {
             customers: customers
         })
     })
-})
+});
 
 //Paymenent invoice
 router.post('/invoice', function (req, res) {
@@ -233,7 +234,7 @@ router.post('/invoice', function (req, res) {
             })
         }
     })
-})
+});
 
 //History invoice
 router.get('/invoicesHistory', function (req, res) {
@@ -246,7 +247,7 @@ router.get('/invoicesHistory', function (req, res) {
             });
         }
     });
-})
+});
 
 router.get('/invoicesHistory/:invoicesId', function (req, res) {
     Invoices.findOne({_id: req.params.invoicesId}, null, {sort: {invoiceNumber: 1}}, function (err, invoices) {
@@ -289,7 +290,98 @@ router.post('/invoicesHistory/:invoicesId', function (req, res) {
             })
         }
     })
-})
+});
+
+//Page to connect to efka
+router.get('/efka', function (req, res) {
+    //start(req,customers);
+    Customers.find({}, function (err, customers) {
+        if (err) console.log(err);
+        res.render('efka', {
+            name: req.user.name,
+            customers: customers
+        });
+     })
+});
+
+//Page to connect to efka
+router.get('/sendEfka/:customerId', function (req, res) {
+    Customers.findOne({_id: req.params.customerId}, function (err, customer) {
+        if (err) console.log(err);
+        else{
+            start(req, customer);
+        }
+    });
+});
+
+function start(req,customer,callback){
+    var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+    ip = ip.match(/\d+\.\d+\.\d+\.\d+/);
+    var url = 'http://' + ip + ':4444/wd/hub';
+    console.log(url);
+
+        var profile = new firefox.Profile();
+        //set download directory
+        profile.preferences_["browser.download.folderList"] = 2;
+        profile.preferences_["browser.download.dir"] = path.join(__dirname + '/');
+        //disable Firefox's built-in PDF viewer
+        profile.preferences_["pdfjs.disabled"] = true;
+        profile.preferences_["browser.helperApps.neverAsk.saveToDisk"] = 'application/pdf';
+        //disable Adobe Acrobat PDF preview plugin
+        profile.preferences_["plugin.scan.plid.all"] = false;
+        profile.preferences_["plugin.scan.Acrobat"] = "99.0";
+
+        var opts = new firefox.Options();
+        opts.setProfile(profile);
+
+        var driver = new webdriver.Builder()
+            .usingServer(url)
+            .forBrowser('firefox')
+            .setFirefoxOptions(opts)
+            .build();
+
+        driver.get('https://www.idika.org.gr/EfkaServices/Default.aspx');
+        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 2000);
+        driver.findElement(By.id('ContentPlaceHolder1_btnEisodos_CD')).click();
+        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 2000);
+        driver.sleep(4000);
+        driver.findElement(By.id('ContentPlaceHolder1_btnGGPSAuth_CD')).click();
+        driver.wait(until.titleIs('ΑΑΔΕ - ΕΙΣΟΔΟΣ'), 8000);
+        driver.findElement(By.name('j_username')).sendKeys(customer.taxisUser);
+        driver.findElement(By.name('j_password')).sendKeys(customer.taxisPass);
+        driver.sleep(2000);
+        driver.findElement(By.xpath("//*[@value='Είσοδος']")).click();
+        driver.wait(until.titleIs('ΑΑΔΕ'), 10000);
+        driver.sleep(2000);
+        driver.findElement(By.name('authorize')).click();
+        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 10000);
+        driver.sleep(2000);
+        driver.findElement(By.name('ctl00$ContentPlaceHolder1$ASPxFormLayout1$ASPxFormLayout1_E1AMKA')).sendKeys(customer.amka);
+        driver.findElement(By.id('ContentPlaceHolder1_ASPxFormLayout1_ASPxFormLayout1_E2btnEisodos')).click();
+        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 5000);
+        driver.wait(until.elementLocated(By.id('ContentPlaceHolder1_panelOikEkkr_contrLink')), 10000).then(function (elem) {
+            driver.findElement(By.id('ContentPlaceHolder1_panelOikEkkr_contrLink')).click();
+        });
+        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 5000);
+        driver.sleep(4000);
+        driver.findElement(By.id('ContentPlaceHolder1_panelEidop_mainFormLayout_btnEidopoiitirio')).click();
+        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 5000);
+        driver.sleep(2000);
+        driver.findElement(By.id('TopPanel_NavMenu_DXI2_')).click();
+        driver.findElement(By.id('TopPanel_NavMenu_DXME2_')).click().then(function () {
+
+            var temp = -1;
+            var files;
+            while (temp < 0) {
+                files = fs.readdirSync(path.join(__dirname + '/'));
+                for (var i = 0; i < files.length; i++) {
+                    temp = files[i].search('pdf');
+                    if (temp > 0) break;
+                }
+            }
+            driver.quit();//close firefox window
+        })
+}//End of function start
 
 module.exports = router;
 

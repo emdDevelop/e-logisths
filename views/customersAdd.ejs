@@ -106,6 +106,14 @@
             document.getElementById('typeYear').checked=false;
             document.getElementById('typeMonth').checked=true;
         <%}%>
+    //radio set for efka
+    <%if(customers.efkaConfirm===true){%>
+    document.getElementById('efkaYes').checked=true;
+    document.getElementById('efkaNo').checked=false;
+    <%}else{%>
+    document.getElementById('efkaYes').checked=false;
+    document.getElementById('efkaNo').checked=true;
+    <%}%>
 
     <%}%>
 </script>

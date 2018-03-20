@@ -1,0 +1,47 @@
+<% include templates/header.ejs %>
+<body>
+
+<div class="container" style="background-color: #eee">
+    <% include templates/body.ejs %>
+    <div class="row content">
+        <% include templates/navbar.ejs %>
+        <div class="col-sm-9">
+            <h3>Πελάτες</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Επωνυμία</th>
+                    <th>ΑΦΜ</th>
+                </tr>
+                </thead>
+                <tbody id="customersTableId">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<% include templates/footer.ejs %>
+
+<script>
+    var parent=document.getElementById('customersTableId');
+    var trElem;
+    var td1,td2;
+
+    <% customers.forEach(function(customers){%>
+        <%if(customers.efkaConfirm===true){%>
+            trElem=document.createElement('tr');
+            td1=document.createElement('td');
+            td1.innerHTML='<a href=\'\/users\/customers\/<%=customers._id %>\'><%=customers.name%><\/a>';
+            td2=document.createElement('td');
+            td2.innerHTML='<%=customers.vatId%>';
+            trElem.appendChild(td1);
+            trElem.appendChild(td2);
+            parent.appendChild(trElem);
+        <%}%>
+    <%})%>
+
+</script>
+</body>
+</html>
