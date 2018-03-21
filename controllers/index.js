@@ -2,8 +2,6 @@ var express=require('express');
 var router=express.Router();
 var path=require('path');
 var User=require('../models/user');
-var transporter=require('../middlewares/nodemailer');
-var EmailTemplate = require('email-templates').EmailTemplate;
 var crypto = require('crypto');
 /*
  For each of your email templates (e.g. a welcome email to send to
@@ -103,9 +101,6 @@ router.get('/about',function(req,res){
 })
 
 router.post('/signup',function(req,res){
-    var emailTemplate=path.join(__dirname,'../views/templates','welcomeEmail');
-    var welcomeEmail=new EmailTemplate(emailTemplate);
-
     User.findOne({username: req.body.username},function(err,user){
         if(err) throw err;
     var messages=[];
@@ -146,24 +141,7 @@ router.post('/signup',function(req,res){
             }
 
             //email send
-    welcomeEmail.render({name: req.body.name,username:req.body.username, password:req.body.pwd},function(err,results){
-            if(err) return console.log(err);
 
-            var mailOptions = {
-               from: 'dionisis.ef@gmail.com',
-               to: newUser.username,
-               subject: 'Welcome',
-               html: results.html
-           };
-
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            })
-          })
         }//end of else
     })
 })
@@ -218,9 +196,6 @@ router.post('/login',function(req,res){
 })
 
 router.post('/forgot',function(req,res){
-    var emailTemplate=path.join(__dirname,'../views/templates','resetPassword');
-    var resetPassword=new EmailTemplate(emailTemplate);
-
     User.findOne({username: req.body.username},function(err,user){
         if (err) console.log(err);
         if(!user){
@@ -245,24 +220,7 @@ router.post('/forgot',function(req,res){
                     if (err) console.log(err);
                 })
                 //email send
-                resetPassword.render({host: req.headers.host, token: token , passExpires: passExpires},function(err,results){
-                    if(err) return console.log(err);
 
-                    var mailOptions = {
-                        from: 'dionisis.ef@gmail.com',
-                        to: req.body.username,
-                        subject: 'Reset Password',
-                        html: results.html
-                    };
-
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log('Email sent: ' + info.response);
-                        }
-                    })
-                })
             })//end of crypto
             res.render('forgot',{
                 errors: 'An e-mail has been sent to '+ req.body.username

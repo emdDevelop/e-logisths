@@ -7,6 +7,7 @@ var path = require('path');
 var User = require('../models/user');
 var Customers = require('../models/customers');
 var Invoices = require('../models/invoice');
+var sgMail=require('../middlewares/sendgrid');
 
 By = webdriver.By,
     until = webdriver.until;
@@ -309,7 +310,15 @@ router.get('/sendEfka/:customerId', function (req, res) {
     Customers.findOne({_id: req.params.customerId}, function (err, customer) {
         if (err) console.log(err);
         else{
-            start(req, customer);
+            start(req, customer,function(err){
+                if(err){
+                    console.log(err);
+                    res.send("Not ok");
+                }else{
+                    console.log('Yay! Our templated email has been sent');
+                    res.send("ok");
+                }
+            });
         }
     });
 });
@@ -363,13 +372,14 @@ function start(req,customer,callback){
             driver.findElement(By.id('ContentPlaceHolder1_panelOikEkkr_contrLink')).click();
         });
         driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 5000);
-        driver.sleep(4000);
+        driver.sleep(8000);
         driver.findElement(By.id('ContentPlaceHolder1_panelEidop_mainFormLayout_btnEidopoiitirio')).click();
         driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 5000);
-        driver.sleep(2000);
+        driver.sleep(3000);
         driver.findElement(By.id('TopPanel_NavMenu_DXI2_')).click();
         driver.findElement(By.id('TopPanel_NavMenu_DXME2_')).click().then(function () {
 
+            //check for pdf file
             var temp = -1;
             var files;
             while (temp < 0) {
@@ -379,7 +389,49 @@ function start(req,customer,callback){
                     if (temp > 0) break;
                 }
             }
-            driver.quit();//close firefox window
+            var file = fs.readFileSync(path.join(__dirname+ '/' +files[i]));
+
+            //email preparation
+            const msg = {
+                to: customer.email,
+                from: 'logistek@otenet.gr',
+                subject: 'ΕΦΚΑ',
+                html: '<p>Here’s an attachment for you!</p>',
+                attachments: [
+                    {
+                        content: new Buffer(file).toString('base64'),
+                        filename: files[i],
+                        path: path.join(__dirname+ '/' +files[i]),
+                        type: 'application/pdf',
+                        disposition: 'attachment'
+                    },
+                ],
+                templateId: 'df62eab5-cc72-40b1-a8e3-247b8a5e716c'
+                //substitutions are for sendgrid template
+         /*       substitutions: {
+                    name: req.body.name,
+                    username: req.body.username ,
+                    password: req.body.pwd
+                },*/
+            };
+
+            //Sending email
+            sgMail.send(msg,function(err,response){
+                if(err){
+                    console.log(err);
+                    fs.unlink((path.join(__dirname+ '/' +files[i])),function(err){
+                        if(err) console.log(err);
+                    });//remove pdf file
+                    callback(1);
+                    //driver.quit();//close firefox window
+                }else{
+                    fs.unlink((path.join(__dirname+ '/' +files[i])),function(err){
+                        if(err) console.log(err);
+                    });//remove pdf file
+                    callback(0);
+                    //driver.quit();//close firefox window
+                }
+            });
         })
 }//End of function start
 

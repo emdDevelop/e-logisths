@@ -12,6 +12,7 @@
                 <tr>
                     <th>Επωνυμία</th>
                     <th>ΑΦΜ</th>
+                    <th>Αποστολή Εφκα</th>
                 </tr>
                 </thead>
                 <tbody id="customersTableId">
@@ -27,20 +28,24 @@
 <script>
     var parent=document.getElementById('customersTableId');
     var trElem;
-    var td1,td2;
+    var td1,td2,td3;
 
     <% customers.forEach(function(customers){%>
         <%if(customers.efkaConfirm===true){%>
             trElem=document.createElement('tr');
             td1=document.createElement('td');
-            td1.innerHTML='<a href=\'\/users\/customers\/<%=customers._id %>\'><%=customers.name%><\/a>';
+            td1.innerHTML='<%=customers.name%>';
             td2=document.createElement('td');
             td2.innerHTML='<%=customers.vatId%>';
+            td3=document.createElement('td');
+            td3.innerHTML='<button type="button" class="btn btn-primary" onclick="window.location.href=\'/users/sendEfka/<%=customers._id%>\'">Send</button>';
             trElem.appendChild(td1);
             trElem.appendChild(td2);
+            trElem.appendChild(td3);
             parent.appendChild(trElem);
         <%}%>
     <%})%>
+
 
 </script>
 </body>
