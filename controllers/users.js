@@ -310,12 +310,12 @@ router.get('/sendEfka/:customerId', function (req, res) {
     Customers.findOne({_id: req.params.customerId}, function (err, customer) {
         if (err) console.log(err);
         else{
-            start(req, customer,function(err){
+            start(req, customer,function(err,customer){
                 if(err){
                     console.log(err);
-                    res.send("Not ok");
+                    res.send("Error sending to " +  customer);
                 }else{
-                    console.log('Yay! Our templated email has been sent');
+                    console.log('Yay! Our templated email has been sent ' + customer);
                     res.send("ok");
                 }
             });
@@ -350,7 +350,12 @@ function start(req,customer,callback){
             .build();
 
         driver.get('https://www.idika.org.gr/EfkaServices/Default.aspx');
-        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 2000);
+        driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 2000).then(null,function(err) {
+            if (err) {
+                console.log("Element was missing!");
+                //driver.quit();
+            }
+        });
         driver.findElement(By.id('ContentPlaceHolder1_btnEisodos_CD')).click();
         driver.wait(until.titleIs('ΕΦΚΑ - Ηλεκτρονικές Υπηρεσίες'), 2000);
         driver.sleep(4000);
@@ -422,13 +427,13 @@ function start(req,customer,callback){
                     fs.unlink((path.join(__dirname+ '/' +files[i])),function(err){
                         if(err) console.log(err);
                     });//remove pdf file
-                    callback(1);
+                    callback(1,customer.name);
                     //driver.quit();//close firefox window
                 }else{
                     fs.unlink((path.join(__dirname+ '/' +files[i])),function(err){
                         if(err) console.log(err);
                     });//remove pdf file
-                    callback(0);
+                    callback(0,customer.name);
                     //driver.quit();//close firefox window
                 }
             });
